@@ -1,0 +1,12 @@
+streamlit
+chromadb
+sentence-transformers
+transformers
+torch  # or install cpu/cuda wheel for your environment
+pandas
+python-dotenv
+PyMuPDF
+youtube-transcript-api
+requests
+tqdm
+llama_index
