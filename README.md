@@ -1,32 +1,23 @@
-# Chat with Your Data — Streamlit RAG demo
+# Chat with Your Data — Streamlit RAG demo (Gemini-ready)
 
-Features:
-- Upload PDFs, CSVs, or paste YouTube URLs to ingest content.
-- Index documents into ChromaDB and query them using semantic search.
-- Use LlamaIndex (optional) + ChromaDB for retrieval.
-- Pluggable LLM/embeddings (Gemini / Mistral / Groq / HF / OpenAI / local) via environment variables.
-- Streamlit UI shows answers, confidence score, and highlighted source paragraphs.
+This branch finalizes the Gemini-backed portfolio demo: improved UI, provenance, sample data, demo assets, and deployment instructions.
 
-Quickstart:
-1. Copy `.env.example` to `.env` and fill your API keys if using remote models.
-2. Install dependencies: `pip install -r requirements.txt`
-3. Start the app: `streamlit run app.py`
-4. Upload files or add a YouTube URL, click "Ingest", then ask questions.
+Features added in this branch
+- Gemini (Google Generative Language) LLM integration (reads GEMINI_API_KEY from env or repo secrets)
+- LLM instructed to return JSON with answer, provenance (indices into retrieved chunks), and confidence (0-1). Parser maps indices back to chunk metadata so the UI shows exact paragraph provenance.
+- UI polish: chat history, highlighted query terms, links to sample_data files, copy/export transcript, and toggles to show full chunks.
+- Sample data: 3 small CSV files in /sample_data for quick demo.
+- Demo assets: one-minute demo script and screenshot/GIF instructions in /demo.
+- Dockerfile included; deployment instructions for Streamlit Cloud / Render in README.
 
-Env vars (new for Gemini integration):
-- GEMINI_API_KEY — your Google Generative Language API key (or other Gemini key). Do NOT commit this value.
-- GEMINI_MODEL (optional) — model id to use (default: text-bison-001). Example: text-bison-001 or chat-bison-001
-- If you prefer using a Google service account JSON, set GOOGLE_APPLICATION_CREDENTIALS to the JSON file path on the host.
+Quickstart
+1. Add your Gemini key to GitHub repo secrets (recommended) or create a local `.env` (do NOT commit `.env`):
+   - Name: `GEMINI_API_KEY`
+   - Optionally: `GEMINI_MODEL` (default: text-bison-001)
+   - Set `LLM_BACKEND=gemini` in `.env` or select in the UI.
+2. Install deps: `pip install -r requirements.txt`
+3. Run locally: `streamlit run app.py`
 
-Security notes:
-- Add keys to GitHub repository secrets (Settings → Secrets and variables → Actions) or your host's environment configuration; never commit `.env` or keys to git.
+Security & cost notes
+- Rotate the key and add project-level budget alerts in Google Cloud. Use conservative `max_output_tokens` and `temperature` defaults.
 
-How Gemini is used:
-- The app reads GEMINI_API_KEY at runtime and calls the public Generative Language endpoint (v1beta2) to generate an answer from retrieved context chunks.
-- If you use a service account instead, configure GOOGLE_APPLICATION_CREDENTIALS and the code will attempt to use OAuth to fetch an access token.
-
-Switching backends:
-- Set LLM_BACKEND in `.env` or select the backend in the Streamlit UI. Use `gemini` to enable the Gemini/Generative API integration.
-
-Notes:
-- This scaffold aims to be simple and clear for portfolio demonstration. Rotate and protect API keys; set budget alerts in Google Cloud to avoid unexpected costs.
