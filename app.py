@@ -27,7 +27,7 @@ if st.sidebar.button("Reset/clear DB"):
 # Main UI: Query
 st.sidebar.header("Settings")
 top_k = st.sidebar.slider("Top K retrieval", 1, 10, 4)
-backend = st.sidebar.selectbox("LLM backend", ["local", "hf", "openai", "mistral", "groq"]) 
+backend = st.sidebar.selectbox("LLM backend", ["local", "hf", "openai", "mistral", "groq", "gemini"]) 
 # Query area
 st.header("Ask a question")
 query = st.text_input("Enter your question")
